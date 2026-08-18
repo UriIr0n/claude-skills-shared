@@ -15,22 +15,22 @@ where this one stopped. The file is read automatically at session start by
 The handoff belongs next to the project it describes.
 
 - Session cwd is a project directory → write there.
-- Session cwd is `C:\Users\97252` (the home directory) → **ask** which project under
-  `Projects\עבודה\` or `Projects\אישי\` this session was about. Never drop the file in home;
+- Session cwd is the user's home directory, or anywhere else that isn't a specific project →
+  **ask** which project this session was about and write it there. Never drop the file in home;
   the loader keys off cwd, so a handoff in home would load into every unrelated session.
 
 ## 2. Repo guard — run before writing
 
 If the target directory is a git repo (`git rev-parse --git-dir` succeeds), make sure
 `.handoff-latest.json` is in `.gitignore`; append it if it isn't. A handoff describes working
-state and must never be committed. This matters most under `Projects\עבודה\`, where the global
-`CLAUDE.md` forbids organisational data entering a work repo.
+state and must never be committed. Take extra care in a work or client repo, where a project's
+own CLAUDE.md may forbid internal detail entering the repository at all.
 
 ## 3. Redact
 
 Never put credentials in the file: no API keys, passwords, tokens, connection strings, session
 cookies, or personal data. Point at where the credential lives instead —
-"login stored in the ariel-dashboard-credentials memory", not the password itself.
+"credentials are in the project's .env", not the credentials themselves.
 
 ## 4. Write the JSON
 
@@ -74,4 +74,4 @@ Keep it short. The point of a handoff is that the session is out of room; a long
 ## Suggested skills for the next session
 
 Include a short `full_summary` note naming any skill the next agent should invoke
-(`human` before writing prose, `resume-tailor`, `job-finder`, etc.) so the pipeline resumes intact.
+so a multi-step pipeline resumes intact instead of restarting from scratch.
